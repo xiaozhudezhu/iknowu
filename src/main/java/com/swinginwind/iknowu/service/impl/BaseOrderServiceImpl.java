@@ -13,6 +13,7 @@ import com.swinginwind.iknowu.model.BaseFile;
 import com.swinginwind.iknowu.model.BaseOrder;
 import com.swinginwind.iknowu.pager.BaseOrderPager;
 import com.swinginwind.iknowu.service.BaseOrderService;
+import com.swinginwind.iknowu.service.SysUserService;
 
 @Service
 public class BaseOrderServiceImpl implements BaseOrderService {
@@ -22,11 +23,15 @@ public class BaseOrderServiceImpl implements BaseOrderService {
 	
 	@Autowired
 	private BaseFileMapper fileMapper;
+	
+	@Autowired
+	private SysUserService userService;
 
 	@Override
 	public int insert(BaseOrder order) {
 		order.setDate(new Date());
 		order.setOid(Identities.uuid());
+		order.setCreateUser(userService.getCurrentUser().getId());
 		order.setState("0");
 		if(order.getFilesQuestion() != null && order.getFilesQuestion().size() > 0) {
 			for(int i = 0; i < order.getFilesQuestion().size(); i ++) {
@@ -57,7 +62,7 @@ public class BaseOrderServiceImpl implements BaseOrderService {
 	public int answer(BaseOrder order) {
 		BaseOrder orderNew = new BaseOrder();
 		orderNew.setOid(order.getOid());
-		orderNew.setAnswerUser(order.getAnswerUser());
+		orderNew.setAnswerUser(userService.getCurrentUser().getId());
 		orderNew.setDeldate(new Date());
 		orderNew.setDelprocess(order.getDelprocess());
 		orderNew.setState("1");

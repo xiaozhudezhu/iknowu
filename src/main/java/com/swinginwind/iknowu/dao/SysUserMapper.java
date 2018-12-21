@@ -1,5 +1,7 @@
 package com.swinginwind.iknowu.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.swinginwind.iknowu.model.SysUser;
 
 public interface SysUserMapper {
@@ -16,4 +18,14 @@ public interface SysUserMapper {
     int updateByPrimaryKey(SysUser record);
     
     SysUser checkLogin(SysUser user);
+    
+    /**
+     * 根据用户名、邮箱等判断是否已使用过
+     * @param user
+     * @return
+     */
+    int checkExists(SysUser user);
+    
+    SysUser selectByWechatId(@Param("wechatId") String wechatId);
+    
 }

@@ -27,9 +27,6 @@ public class BaseOrderController {
 	@ResponseBody
 	public JSONResponse create(@RequestBody BaseOrder order, HttpServletRequest request) {
 		JSONResponse res = new JSONResponse();
-		SysUser user = (SysUser) request.getSession().getAttribute("user");
-		if(user != null)
-			order.setCreateUser(user.getId());
 		orderService.insert(order);
 		res.setMsg("create success!");
 		res.put("order", order);
