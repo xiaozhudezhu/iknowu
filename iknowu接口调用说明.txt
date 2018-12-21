@@ -1,0 +1,430 @@
+﻿访问地址：http://47.96.161.119/iknowu-server
+消息头：Content-Type: application/json
+HTTP方法：POST
+*****登录成功后需要增加HTTP Header令牌信息：Login-Token=loginToken，如果未带令牌或令牌已失效，则访问除了/login /register之外的请求将会返回HTTP STATUS = 401
+
+---登录：
+/login
+请求：
+{
+	"userName": "demo",  //用户名
+	"pwd": "demo"        //密码
+}
+响应：
+{
+	"msg": "",           //响应信息，比如详细错误信息，下同
+	"errorCode": null,   //错误代码，下同
+	"loginToken": "c9c5134fa24848ee81fe81f9d15fd85a", //令牌，后续请求需要增加Login-Token的http header
+	"user": {
+		"id": 1,
+		"userName": "demo",
+		"nickName": "demo",
+		"pwd": "fe01ce2a7fbac8fafaed7c982a04e229",
+		"qrCodeUrl": 6,
+		"status": "1",
+		"createTime": "2018-05-26 08:57:21",
+		"masterInfo": {    //认证的导师信息
+			"tid": "1",
+			"mastername": "lifesinger",
+			"gender": "1",  //性别，1：男；2：女
+			"age": 33,
+			"fields": "淘宝前端类库 KISSY、前端模块化开发框架SeaJS、前端基础类库Arale的创始人。",
+			"level": "5",
+			"weixin": "",
+			"monthCount": 50, //月度答题量
+			"userId": 1
+		}
+	},
+	"status": "success"  //响应状态，success表示成功，其他为失败；下同
+}
+
+
+
+---注册
+/register
+请求
+{
+	"userName": "dmj",           //登录名
+	"pwd": "111111",             //密码
+	"nickName": "邓孟君",        //昵称
+	"email": "123@wdn.com",      //邮箱
+	"phonecall": "1234567890",   //电话
+	"gender": "m",               //性别，f/m
+	"headImgUrl": "3",           //头像对应的fileId，需要先调用/file/uploadFile上传头像，用/file/getFile?id=访问对应的图片
+	"city": "上海"               //城市
+}
+响应
+成功
+{
+	"msg": "注册成功",
+	"errorCode": null,
+	"status": "success"
+}
+账号已存在
+{
+	"msg": "注册失败，账号已存在",
+	"errorCode": null,
+	"status": "success"
+}
+
+
+---更新用户信息
+/user/updateUser
+请求
+{
+	"id": 10,
+	"userName": "dmj",
+	"nickName": "邓孟君",
+	"email": "123@wdn.com",
+	"phonecall": "1234567890",
+	"gender": "m",
+	"headImgUrl": "3",
+	"city": "上海"
+}
+
+响应
+{
+	"msg": "修改成功",
+	"errorCode": null,
+	"user": {
+		"id": 10,
+		"userName": "dmj",
+		"nickName": "邓孟君",
+		"pwd": "96e79218965eb72c92a549dd5a330112",
+		"email": "123@wdn.com",                       //邮箱
+		"phonecall": "1234567890",                    //电话号码
+		"gender": "m",                                //性别 f/m
+		"headImgUrl": "3",                            //头像对应的fileId，用/file/getFile?id=访问对应的图片
+		"city": "上海",                               //地区
+		"qrCodeUrl": "7",                             //二维码对应的fileId，用/file/getFile?id=访问对应的图片
+		"status": "1",
+		"createTime": "2018-12-21 12:41:04"
+	},
+	"status": "success"
+}
+
+
+---更新密码
+/user/updatePwd
+请求
+{
+	"id": 10,
+        "pwd": "111111"
+}
+响应
+{
+	"msg": "修改成功",
+	"errorCode": null,
+	"status": "success"
+}
+
+---资源类别
+/dic/getTypes
+请求参数：无
+响应
+{
+	"msg": "",
+	"types": [{
+		"tid": "1",
+		"name": "区块链",
+		"sortNum": 1
+	}, {
+		"tid": "2",
+		"name": "人工智能",
+		"sortNum": 2
+	}, {
+		"tid": "3",
+		"name": "找医生",
+		"sortNum": 3
+	}, {
+		"tid": "4",
+		"name": "找办事",
+		"sortNum": 4
+	}],
+	"errorCode": null,
+	"status": "success"
+}
+
+---创建资源
+/resource/create
+请求
+{
+	"name": "可联系周志华",
+	"resContent": "联系周志华，解决你的智能分析问题",
+	"type": 1,
+	"price": 200
+}
+响应
+{
+	"msg": "create success!",
+	"resource": {
+		"rid": "9a8133b3090343bd86dffafff8295c6c",
+		"name": "可联系周志华",
+		"resContent": "联系周志华，解决你的智能分析问题",
+		"type": "1",
+		"createUser": 10,
+		"date": "2018-12-21 18:23:36",
+		"price": "200",
+		"state": "1"
+	},
+	"errorCode": null,
+	"status": "success"
+}
+
+---搜索资源
+/resource/select
+请求
+{
+	"startTime": "2018-11-2 00:00:00", //可选条件，开始时间
+	"endTime": "2018-12-30 00:00:00",  //可选条件，截止时间
+	"createUser": 10,                  //可选条件，创建用户
+	"states": ["1"],                   //可选条件，资源状态，1：创建；2：暂停；3：失效
+	"types": ["1", "2"],               //可选条件，资源类别，从/dic/getTypes接口获取
+	"pageNum": 1,                      //当前页码，分页用，默认1
+	"pageSize": 15                     //每页记录条数，分页用，默认15
+}
+响应
+{
+	"msg": "",
+	"total": 1,
+	"records": 2,
+	"errorCode": null,
+	"page": 1,
+	"rows": [{
+		"rid": "c145c77c39fa403fa53d5501f122756d",
+		"name": "可联系周志华",
+		"resContent": "联系周志华，解决你的智能分析问题",
+		"type": "2",
+		"typeName": "人工智能",
+		"createUser": 10,
+		"createUserName": "邓孟君",
+		"date": "2018-12-21 18:46:24",
+		"price": "200",
+		"state": "1"
+	}, {
+		"rid": "9a8133b3090343bd86dffafff8295c6c",
+		"name": "可联系V神",
+		"resContent": "联系V神，解决你的区块链问题",
+		"type": "1",
+		"typeName": "区块链",
+		"createUser": 10,
+		"createUserName": "邓孟君",
+		"date": "2018-12-21 18:23:36",
+		"price": "200",
+		"state": "1"
+	}],
+	"status": "success"
+}
+
+
+---创建订单
+/order/create
+请求：
+{
+	"name": "CCCCCCCC",         //名称
+	"issueContent": "DDDDDDD",  //详情
+	"type": "JAVA",             //类别
+	"implevel": "1",            //重要程度
+	"urgent": "1",              //紧急程度
+	"price": "100",             //打赏金额
+	"master": "导师1",          //分配导师，多个已逗号分隔
+	"filesQuestion": [          //提问上传的附件，要先逐个调用/file/uploadFile上传文件并返回fileId，将此fileId提交
+		{
+			"id": 2
+		}
+	]
+}
+响应：
+{
+	"msg": "create success!",
+	"errorCode": null,
+	"status": "success",
+	"order": {    //订单信息
+		"oid": "9bbbacfedb074d4b8e16bf13b526b437", //订单ID
+		"name": "CCCCCCCC",
+		"issueContent": "DDDDDDD",
+		"type": "JAVA",
+		"date": "2018-11-02 17:25:20",
+		"implevel": "1",
+		"urgent": "1",
+		"price": "100",
+		"master": "导师1",
+		"state": "0",
+		"filesQuestion": [{  //提问附件列表
+			"id": 2,
+			"sortCode": 1,
+			"recordId": "8ee719daf0ca4a5ea1cc30763686a3a7",
+			"recordType": "ORDER_Q"
+		}]
+	}
+}
+
+
+---答题
+/order/answer
+请求：
+{
+	"oid": "9bbbacfedb074d4b8e16bf13b526b437",  //订单 id
+	"delprocess": "EEEEEE",                     //回答内容
+	"filesAnswer": [                            //回答附件列表，要先逐个调用/file/uploadFile上传文件并返回fileId，将此fileId提交
+		{
+			"id": 1
+		}
+	]
+}
+响应：
+{
+	"msg": "answer success!",
+	"errorCode": null,
+	"status": "success"
+}
+
+---客户评价
+/order/evaluate
+请求：
+{
+	"oid": "9bbbacfedb074d4b8e16bf13b526b437",  //订单 id
+	"cusContent": "FFFFFF",                     //评价内容
+        "cusResult": "4"                            //评价星级
+}
+
+响应：
+{
+	"msg": "evaluate success!",
+	"errorCode": null,
+	"status": "success"
+}
+
+
+---订单搜索
+/order/search
+请求：
+{
+	"startTime": "2018-11-2 00:00:00", //可选条件，开始时间（针对提出时间）
+	"endTime": "2018-11-2 00:00:00",   //可选条件，截止时间（针对提出时间）
+	"createUser": 1,                   //可选条件，提问用户ID（我问）
+	"answerUser": 1,                   //可选条件，回答用户ID（我答）
+	"states": ["2"],                   //可选条件，问题状态，0：创建；1：已回答；2：已评价
+	"types": ["JAVA"],                 //可选条件，问题类别
+	"pageNum": 1,                      //当前页码，分页用，默认1
+	"pageSize": 15                     //每页记录条数，分页用，默认15
+}
+
+响应：
+{
+	"msg": "",
+	"total": 1,         //总页数，下同
+	"records": 1,       //总记录数, 下同
+	"errorCode": null, 
+	"page": 1,          //当前页，下同
+	"rows": [{
+		"oid": "9bbbacfedb074d4b8e16bf13b526b437",
+		"name": "CCCCCCCC",             //问题名称
+		"issueContent": "DDDDDDD",      //问题详细描述
+		"type": "JAVA",
+		"createUser": 1,
+		"createUserName": "demo",       //提问用户名称
+		"answerUser": 1,
+		"answerUserName": "demo",       //回答者名称
+		"date": "2018-11-02 00:00:00",  //提问时间
+		"implevel": "1",
+		"urgent": "1",
+		"price": "100",
+		"master": "导师1",
+		"deldate": "2018-11-02 00:00:00", //回答时间
+		"delprocess": "EEEEEE",           //回答内容
+		"state": "2",
+		"cusContent": "FFFFFF",           //问题状态，0：创建；1：已回答；2：已评价
+		"cusResult": "4",
+		"filesQuestion": [{
+			"id": 2,
+			"fileName": "splash.png",
+			"filePath": "splash-4b7f2fb3258a49b09785f058ceaeff5b.png",
+			"fileSize": 815316.0,
+			"fileSuffix": "png",
+			"fileType": "img",
+			"fileMd5": "4b797a687ae257736eb2fbe950369301",
+			"sortCode": 1,
+			"recordId": "9bbbacfedb074d4b8e16bf13b526b437",
+			"recordType": "ORDER_Q",
+			"updateTime": "2018-10-17 12:25:05"
+		}],
+		"filesAnswer": [{
+			"id": 1,
+			"fileName": "0C0A8434_1副本.jpg",
+			"filePath": "0C0A8434_1副本.jpg",
+			"fileSize": 11111.0,
+			"fileSuffix": "jpg",
+			"fileType": "img",
+			"fileMd5": "acccdddddff",
+			"sortCode": 1,
+			"recordId": "9bbbacfedb074d4b8e16bf13b526b437",
+			"recordType": "ORDER_A"
+		}]
+	}],
+	"status": "success"
+}
+
+
+---导师搜索
+/master/search
+请求
+{
+	"mastername": "",     //可选条件，支持模糊搜索
+	"newTecher": "1",     //可选条件，1表示新晋导师
+	"popTecher": "0",     //可选条件，1表示人气导师
+	"pageNum": 1,         //当前页码，分页用，默认1
+	"pageSize": 15        //每页记录条数，分页用，默认15
+}
+响应
+{
+	"msg": "",
+	"total": 1,
+	"records": 3,
+	"errorCode": null,
+	"page": 1,
+	"rows": [{
+		"tid": "5",
+		"mastername": "JeffreyZhao",
+		"gender": "1",
+		"age": 28,
+		"fields": "赵劼，网名老赵，洋名Jeffrey Zhao，花名赵姐夫，金融行业程序员，目前就职于摩根大通（香港）。多年微软MVP，InfoQ中文站兼职编辑。",
+		"level": "1",
+		"monthCount": 50
+	}, {
+		"tid": "6",
+		"mastername": "chenshuo",
+		"gender": "1",
+		"age": 25,
+		"fields": "北京师范大学硕士，擅长 C++ 多线程网络编程和实时分布式系统架构。编写了开源 C++ 网络库 muduo； 参与翻译了《代码大全（第二版）》和《C++ 编程规范（繁体版）》，整理了《C++ Primer 第4版评注版》；曾多次在各地技术大会演讲。《Linux 多线程服务端编程》作者。",
+		"level": "2",
+		"monthCount": 50
+	}, {
+		"tid": "7",
+		"mastername": "huacnlee",
+		"gender": "1",
+		"age": 32,
+		"fields": "李华顺，者也(zheye.org)创始人之一，淘宝MED团队成员，Ruby China 创始人。",
+		"level": "1.5",
+		"monthCount": 50
+	}],
+	"status": "success"
+}
+
+
+---文件上传
+/file/uploadFile
+请求：
+file：文件，fileType：文件类型img/video/audio
+响应：
+{
+	"msg": "",
+	"errorCode": null,
+	"status": "success",
+	"fileId": 2
+}
+
+---文件下载（包括图片查看）
+/file/getFile?id=2&thumbnail=1
+thumbnail=1表示请求缩略图，为可选参数
+

@@ -21,7 +21,7 @@
 			<property name="suppressMapperComments" value="false" /> -->
 		</commentGenerator>
 
-		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://47.96.161.119:3306/wdn"
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://47.96.161.119:3306/wdn_res"
 			userId="root" password="12345678">
 			<!-- 针对oracle数据库 -->
 <!-- 		    <property name="remarks" value="true"></property>
@@ -52,7 +52,7 @@
 		</javaClientGenerator>
 	
 	
-		<table tableName="t_base_file" domainObjectName="BaseFile"
+		<table tableName="t_dic_type" domainObjectName="DicType"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false" schema="wdn">

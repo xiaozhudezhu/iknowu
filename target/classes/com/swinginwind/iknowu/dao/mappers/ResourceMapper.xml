@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.swinginwind.iknowu.dao.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.swinginwind.iknowu.model.Resource" >
+    <id column="RID" property="rid" jdbcType="CHAR" />
+    <result column="FID" property="fid" jdbcType="CHAR" />
+    <result column="NAME" property="name" jdbcType="CHAR" />
+    <result column="RES_CONTENT" property="resContent" jdbcType="CHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="CHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="INTEGER" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="CHAR" />
+    <result column="DATE" property="date" jdbcType="TIMESTAMP" />
+    <result column="PRICE" property="price" jdbcType="CHAR" />
+    <result column="STATE" property="state" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RID, FID, NAME, RES_CONTENT, TYPE, CREATE_USER, DATE, PRICE, STATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_resource
+    where RID = #{rid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_resource
+    where RID = #{rid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.swinginwind.iknowu.model.Resource" >
+    insert into t_resource (RID, FID, NAME, RES_CONTENT, 
+      TYPE, CREATE_USER, DATE, 
+      PRICE, STATE)
+    values (#{rid,jdbcType=CHAR}, #{fid,jdbcType=CHAR}, #{name,jdbcType=CHAR}, #{resContent,jdbcType=CHAR}, 
+      #{type,jdbcType=CHAR}, #{createUser,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, 
+      #{price,jdbcType=CHAR}, #{state,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.swinginwind.iknowu.model.Resource" >
+    insert into t_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        RID,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="resContent != null" >
+        RES_CONTENT,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="date != null" >
+        DATE,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        #{rid,jdbcType=CHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="resContent != null" >
+        #{resContent,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=CHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.swinginwind.iknowu.model.Resource" >
+    update t_resource
+    <set >
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=CHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=CHAR},
+      </if>
+      <if test="resContent != null" >
+        RES_CONTENT = #{resContent,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        DATE = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=CHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=CHAR},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.swinginwind.iknowu.model.Resource" >
+    update t_resource
+    set FID = #{fid,jdbcType=CHAR},
+      NAME = #{name,jdbcType=CHAR},
+      RES_CONTENT = #{resContent,jdbcType=CHAR},
+      TYPE = #{type,jdbcType=CHAR},
+      CREATE_USER = #{createUser,jdbcType=INTEGER},
+      DATE = #{date,jdbcType=TIMESTAMP},
+      PRICE = #{price,jdbcType=CHAR},
+      STATE = #{state,jdbcType=CHAR}
+    where RID = #{rid,jdbcType=CHAR}
+  </update>
+  <select id="select" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />,
+    (select t1.nick_name from t_sys_user t1 where t.create_user=t1.id) as create_user_name,
+    (select t2.name from t_dic_type t2 where t.type=t2.tid) as type_name
+    from t_resource t
+    <where>
+      <if test="createUser != null" >
+        and t.CREATE_USER = #{createUser,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null" >
+        and t.DATE &gt; #{startTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime != null" >
+        and t.DATE &lt; date_add(#{endTime,jdbcType=TIMESTAMP}, interval 1 day)
+      </if>
+      <if test="states != null" >
+      	and t.STATE in <foreach collection="states" item="state" index="index"
+             open="(" close=")" separator=",">
+      	  #{state}
+    	</foreach>
+      </if>
+      <if test="types != null" >
+      	and t.TYPE in <foreach collection="types" item="type" index="index"
+             open="(" close=")" separator=",">
+      	  #{type}
+    	</foreach>
+      </if>
+    </where>
+    order by date desc
+  </select>
+</mapper>

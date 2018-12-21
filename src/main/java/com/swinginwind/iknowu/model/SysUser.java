@@ -1,9 +1,15 @@
 package com.swinginwind.iknowu.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SysUser {
+public class SysUser implements Serializable {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 
      * 表 : t_sys_user
      * 对应字段 : id
@@ -51,6 +57,34 @@ public class SysUser {
      * 对应字段 : gender
      */
     private String gender;
+    
+    /**
+     * 
+     * 表 : t_sys_user
+     * 对应字段 : wechat_id
+     */
+    private String wechatId;
+    
+    /**
+     * 
+     * 表 : t_sys_user
+     * 对应字段 : head_img_url
+     */
+    private String headImgUrl;
+
+    /**
+     * 
+     * 表 : t_sys_user
+     * 对应字段 : city
+     */
+    private String city;
+
+    /**
+     * 
+     * 表 : t_sys_user
+     * 对应字段 : qr_code_url
+     */
+    private String qrCodeUrl;
 
     /**
      * 钱包密码
@@ -176,5 +210,37 @@ public class SysUser {
 
 	public void setMasterInfo(BaseMaster masterInfo) {
 		this.masterInfo = masterInfo;
+	}
+
+	public String getWechatId() {
+		return wechatId;
+	}
+
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
+	}
+
+	public String getHeadImgUrl() {
+		return headImgUrl;
+	}
+
+	public void setHeadImgUrl(String headImgUrl) {
+		this.headImgUrl = headImgUrl;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getQrCodeUrl() {
+		return qrCodeUrl;
+	}
+
+	public void setQrCodeUrl(String qrCodeUrl) {
+		this.qrCodeUrl = qrCodeUrl;
 	}
 }
