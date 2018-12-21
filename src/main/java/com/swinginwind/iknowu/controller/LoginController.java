@@ -48,6 +48,7 @@ public class LoginController {
 			String loginToken = Identities.uuid();
 			res.put("loginToken", loginToken);
 			sessionService.setSession(loginToken, user1);
+			user1.setAdmin(userService.isAdmin());
 		}
 			
 		return res;
@@ -76,6 +77,7 @@ public class LoginController {
 				res.put("loginToken", loginToken);
 				sessionService.setSession(loginToken, user);
 				res.put("user", user);
+				user.setAdmin(userService.isAdmin());
 			} catch (Exception e) {
 				e.printStackTrace();
 				res.setStatusAndMsg(false, "注册失败！");
@@ -88,6 +90,16 @@ public class LoginController {
         }
         return res;
     }
+	
+	
+	@RequestMapping("logout")
+	@ResponseBody
+	public JSONResponse logout(HttpServletRequest request) {
+		JSONResponse res = new JSONResponse();
+		sessionService.removeSession(sessionService.getSessionId());
+		res.setMsg("注销成功");
+		return res;
+	}
 	
 	
 	@RequestMapping("register")

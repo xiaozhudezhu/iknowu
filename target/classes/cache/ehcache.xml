@@ -21,7 +21,7 @@
 		timeToIdleSeconds="1800000" timeToLiveSeconds="1800000"
 		overflowToDisk="false" diskPersistent="false"
 		diskExpiryThreadIntervalSeconds="120" />
-	<cache name="sessionCache" maxElementsInMemory="10000" eternal="false"
+	<cache name="sessionCache" maxElementsInMemory="10000" eternal="true"
 		timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false" diskPersistent="true" />
 	
 </ehcache>

@@ -1,5 +1,7 @@
 package com.swinginwind.iknowu.pager;
 
+import java.util.List;
+
 import com.swinginwind.core.pager.Page;
 import com.swinginwind.iknowu.model.BaseMaster;
 
@@ -13,9 +15,18 @@ public class BaseMasterPager extends Page<BaseMaster> {
 
 	private String mastername;
 	
+	/**
+	 * 认证状态，1：基本身份认证，2：资质认证，3：认证完成，4：认证不通过
+	 */
+	private List<String> states;
+	
 	private String newTecher;
 	
 	private String popTecher;
+	
+	private String city;
+	
+	private List<String> types;
 	
 	
 	public String getMastername() {
@@ -40,6 +51,30 @@ public class BaseMasterPager extends Page<BaseMaster> {
 
 	public void setPopTecher(String popTecher) {
 		this.popTecher = popTecher;
+	}
+
+	public List<String> getStates() {
+		return states;
+	}
+
+	public void setStates(List<String> states) {
+		this.states = states;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public List<String> getTypes() {
+		return types;
+	}
+
+	public void setTypes(List<String> types) {
+		this.types = types;
 	}
 	
 

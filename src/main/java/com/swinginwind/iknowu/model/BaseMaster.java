@@ -1,9 +1,17 @@
 package com.swinginwind.iknowu.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
-public class BaseMaster {
+public class BaseMaster implements Serializable {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 
      * 表 : t_base_master
      * 对应字段 : TID
@@ -11,119 +19,180 @@ public class BaseMaster {
     private String tid;
 
     /**
-     * ??ʦ????
+     * 导师姓名
      * 表 : t_base_master
      * 对应字段 : MASTERNAME
      */
     private String mastername;
 
     /**
-     * ??ʦ?Ա
+     * 导师性别
      * 表 : t_base_master
      * 对应字段 : GENDER
      */
     private String gender;
 
     /**
-     * ??ʦ???
+     * 导师年龄
      * 表 : t_base_master
      * 对应字段 : AGE
      */
     private BigDecimal age;
 
     /**
-     * ??ʦ?ֻ????
+     * 
+     * 表 : t_base_master
+     * 对应字段 : ID_NUMBER
+     */
+    private String idNumber;
+
+    /**
+     * 导师手机号码
      * 表 : t_base_master
      * 对应字段 : PHONECALL
      */
     private String phonecall;
 
     /**
-     * ??ʦ???
+     * 导师领域
      * 表 : t_base_master
-     * 对应字段 : FEILDS
+     * 对应字段 : FIELDS
      */
     private String fields;
 
     /**
-     * ??ʦ???߼??
+     * 导师最高级别
      * 表 : t_base_master
      * 对应字段 : LEVEL
      */
     private String level;
 
     /**
-     * ??ʦ??Դ
+     * 导师来源
      * 表 : t_base_master
      * 对应字段 : SOURCE
      */
     private String source;
 
     /**
-     * ??ʦ΢?ź
+     * 导师微信号
      * 表 : t_base_master
      * 对应字段 : WEIXIN
      */
     private String weixin;
 
     /**
-     * ??ʦ֧?????˺
+     * 导师支付宝账号
      * 表 : t_base_master
      * 对应字段 : ALIPAY
      */
     private String alipay;
 
     /**
-     * ??ʦ??????֧????ʽ
+     * 导师服务费支付方式
      * 表 : t_base_master
      * 对应字段 : PAYTYPE
      */
     private String paytype;
 
     /**
-     * ??ʦ???????úϼ
+     * 导师服务费用合计
      * 表 : t_base_master
      * 对应字段 : TOTALFEE
      */
     private BigDecimal totalfee;
 
     /**
-     * ??ʦ???ڳ??
+     * 导师所在城市
      * 表 : t_base_master
      * 对应字段 : CITY
      */
     private String city;
 
     /**
-     * ??ʦ???ڵ?λ
+     * 导师所在单位
      * 表 : t_base_master
      * 对应字段 : FIRM
      */
     private String firm;
 
     /**
-     * ??ʦְ?
+     * 导师职称
      * 表 : t_base_master
      * 对应字段 : RANK
      */
     private String rank;
 
     /**
-     * ??ʦְλ
+     * 导师职位
      * 表 : t_base_master
      * 对应字段 : POSITION
      */
     private String position;
+
+    /**
+     * 
+     * 表 : t_base_master
+     * 对应字段 : REG_TIME
+     */
+    private Date regTime;
+
+    /**
+     * 注册时间一周(可调)以内认为是新进导师
+     * 表 : t_base_master
+     * 对应字段 : NEW_TECHER
+     */
+    private String newTecher;
+
+    /**
+     * 任何一天获得超过50个提问(可调)就认为是人气导师
+     * 表 : t_base_master
+     * 对应字段 : POP_TECHER
+     */
+    private String popTecher;
+
+    /**
+     * 关联用户表ID
+     * 表 : t_base_master
+     * 对应字段 : USER_ID
+     */
+    private Integer userId;
     
     /**
      * 本月接单数
      */
     private int monthCount = 50;
+
+    /**
+     * 认证状态，1：基本身份认证，2：资质认证，3：认证完成，4：认证不通过
+     * 表 : t_base_master
+     * 对应字段 : STATE
+     */
+    private String state;
+
+    /**
+     * 认证备注
+     * 表 : t_base_master
+     * 对应字段 : AUDIT_REMARK
+     */
+    private String auditRemark;
+
+    /**
+     * 审核结论
+     * 表 : t_base_master
+     * 对应字段 : AUDIT_RESULT
+     */
+    private String auditResult;
     
     /**
-     * 关联用户ID
+     * 类别
      */
-    private Integer userId;
+    private List<DicType> typeList;
+    
+    /**
+     * 注册附件
+     */
+    private List<BaseFile> regFiles;
 
     public String getTid() {
         return tid;
@@ -155,6 +224,14 @@ public class BaseMaster {
 
     public void setAge(BigDecimal age) {
         this.age = age;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber == null ? null : idNumber.trim();
     }
 
     public String getPhonecall() {
@@ -253,6 +330,62 @@ public class BaseMaster {
         this.position = position == null ? null : position.trim();
     }
 
+    public Date getRegTime() {
+        return regTime;
+    }
+
+    public void setRegTime(Date regTime) {
+        this.regTime = regTime;
+    }
+
+    public String getNewTecher() {
+        return newTecher;
+    }
+
+    public void setNewTecher(String newTecher) {
+        this.newTecher = newTecher == null ? null : newTecher.trim();
+    }
+
+    public String getPopTecher() {
+        return popTecher;
+    }
+
+    public void setPopTecher(String popTecher) {
+        this.popTecher = popTecher == null ? null : popTecher.trim();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
+    }
+
+    public String getAuditRemark() {
+        return auditRemark;
+    }
+
+    public void setAuditRemark(String auditRemark) {
+        this.auditRemark = auditRemark == null ? null : auditRemark.trim();
+    }
+
+    public String getAuditResult() {
+        return auditResult;
+    }
+
+    public void setAuditResult(String auditResult) {
+        this.auditResult = auditResult == null ? null : auditResult.trim();
+    }
+
 	public int getMonthCount() {
 		return monthCount;
 	}
@@ -261,11 +394,19 @@ public class BaseMaster {
 		this.monthCount = monthCount;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public List<DicType> getTypeList() {
+		return typeList;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setTypeList(List<DicType> typeList) {
+		this.typeList = typeList;
+	}
+
+	public List<BaseFile> getRegFiles() {
+		return regFiles;
+	}
+
+	public void setRegFiles(List<BaseFile> regFiles) {
+		this.regFiles = regFiles;
 	}
 }

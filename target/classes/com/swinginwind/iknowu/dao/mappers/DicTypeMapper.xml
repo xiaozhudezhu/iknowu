@@ -72,4 +72,11 @@
     from t_dic_type
     order by SORT_NUM
   </select>
+  <select id="selectByMasterId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dic_type
+    where TID in (select TYPE_ID from t_base_master_type where MASTER_ID = #{masterId})
+    order by SORT_NUM
+  </select>
 </mapper>

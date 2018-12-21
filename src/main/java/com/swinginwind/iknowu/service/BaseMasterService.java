@@ -11,4 +11,19 @@ public interface BaseMasterService {
 	
 	List<BaseMaster> select(BaseMasterPager pager);
 
+	BaseMaster register(BaseMaster master);
+
+	BaseMaster getRegInfo();
+
+	BaseMaster getRegInfo(int userId);
+
+	void audit(BaseMaster master);
+
+	/**
+	 * 查询所有导师，包括非注册导师
+	 * @param pager
+	 * @return
+	 */
+	List<BaseMaster> selectAll(BaseMasterPager pager);
+
 }

@@ -1,6 +1,8 @@
 package com.swinginwind.core.utils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class ApplicationPropsUtil {
@@ -17,6 +19,8 @@ public class ApplicationPropsUtil {
 	
 	public static final String NETWORK_PROXY_HOST = "network.proxy.host";
 	public static final String NETWORK_PROXY_PORT = "network.proxy.port";
+	
+	private static List<Integer> adminIds;
 	
 	
 	private static Properties props = null;
@@ -43,5 +47,18 @@ public class ApplicationPropsUtil {
 		Properties p = getProps();
 		return p.getProperty(key, defaultVal);
 	}
+
+	public static List<Integer> getAdminIds() {
+		if(adminIds == null) {
+			adminIds = new ArrayList<Integer>();
+			String idStr = getPropsValue("adminIds");
+			String[] idStrs = idStr.split(",");
+			for(String id : idStrs) {
+				adminIds.add(Integer.parseInt(id));
+			}
+		}
+		return adminIds;
+	}
+
 	
 }

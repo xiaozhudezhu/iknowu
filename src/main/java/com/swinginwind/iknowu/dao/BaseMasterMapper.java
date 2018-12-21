@@ -20,5 +20,9 @@ public interface BaseMasterMapper {
     
     List<BaseMaster> select(BaseMasterPager pager);
     
+    List<BaseMaster> selectAll(BaseMasterPager pager);
+    
     BaseMaster selectByUserId(Integer userId);
+    
+    int updateMasterTypes(BaseMaster record);
 }

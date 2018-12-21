@@ -14,6 +14,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.jpay.ext.kit.ZxingKit;
 import com.swinginwind.blockchain.util.Web3jUtil;
 import com.swinginwind.core.session.SessionService;
+import com.swinginwind.core.utils.ApplicationPropsUtil;
 import com.swinginwind.core.utils.EmojiFilter;
 import com.swinginwind.core.utils.MD5Util;
 import com.swinginwind.iknowu.dao.BaseMasterMapper;
@@ -47,6 +48,11 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public SysUser getCurrentUser() {
 		return (SysUser) sessionService.getSession();
+	}
+	
+	@Override
+	public boolean isAdmin() {
+		return ApplicationPropsUtil.getAdminIds().contains(this.getCurrentUser().getId());
 	}
 
 	@Override

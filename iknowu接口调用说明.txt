@@ -19,24 +19,27 @@ HTTP方法：POST
 		"id": 1,
 		"userName": "demo",
 		"nickName": "demo",
+		"gender": "1",  //性别，m：男；f：女
+		"age": 33,
 		"pwd": "fe01ce2a7fbac8fafaed7c982a04e229",
 		"qrCodeUrl": 6,
 		"status": "1",
 		"createTime": "2018-05-26 08:57:21",
+		"admin": true      //是否管理员，用于判定是否能进行只有管理员能执行的操作
 		"masterInfo": {    //认证的导师信息
 			"tid": "1",
 			"mastername": "lifesinger",
-			"gender": "1",  //性别，1：男；2：女
-			"age": 33,
 			"fields": "淘宝前端类库 KISSY、前端模块化开发框架SeaJS、前端基础类库Arale的创始人。",
 			"level": "5",
-			"weixin": "",
 			"monthCount": 50, //月度答题量
 			"userId": 1
 		}
 	},
 	"status": "success"  //响应状态，success表示成功，其他为失败；下同
 }
+
+---退出登录
+/logout
 
 
 
@@ -366,11 +369,13 @@ HTTP方法：POST
 }
 
 
----导师搜索
+---导师搜索（仅搜索已认证导师）
 /master/search
 请求
 {
 	"mastername": "",     //可选条件，支持模糊搜索
+	"types": ["1"],       //可选条件，类别，支持多条
+	"city": "上海",       //可选条件，城市
 	"newTecher": "1",     //可选条件，1表示新晋导师
 	"popTecher": "0",     //可选条件，1表示人气导师
 	"pageNum": 1,         //当前页码，分页用，默认1
@@ -412,6 +417,187 @@ HTTP方法：POST
 }
 
 
+---提交导师认证
+/master/register
+请求
+{
+	"mastername": "lifesinger",
+	"idNumber": "312XXXXXX",
+	"fields": "淘宝前端类库 KISSY、前端模块化开发框架SeaJS、前端基础类库Arale的创始人。",
+	"firm": "XXX公司",                   //单位
+	"rank": "XXX头衔",                   //头衔
+	"position": "CTO",                   //职位
+	"auditRemark": "XXX备注",            //注册备注
+	"typeList": [{                       //类型List
+		"tid": "1",
+		"name": "区块链",
+		"sortNum": 1
+	}],
+	"regFiles": [{                       //注册附件List
+		"id": 7,
+		"fileName": "10.png",
+		"filePath": "userQrCode/10.png",
+		"fileSize": 2868.0,
+		"fileSuffix": "png",
+		"fileType": "img",
+		"fileMd5": "5f10177762cacf1ca9d1965afc5e06b8",
+		"recordId": "1",
+		"recordType": "MASTER_REG",
+		"updateTime": "2018-12-21 12:41:06"
+	}]
+}
+响应
+{
+	"msg": "",
+	"errorCode": null,
+	"status": "success",
+	"master": {
+		"tid": "1",
+		"mastername": "lifesinger",
+		"idNumber": "312XXXXXX",
+		"fields": "淘宝前端类库 KISSY、前端模块化开发框架SeaJS、前端基础类库Arale的创始人。",
+		"level": "5",
+		"firm": "XXX公司",                   //单位
+		"rank": "XXX头衔",                   //头衔
+		"position": "CTO",                   //职位
+		"regTime": "2018-12-24 18:46:44",    //注册时间
+		"newTecher": "0",
+		"popTecher": "1",
+		"userId": 1,
+		"monthCount": 50,
+		"state": "1",                        //认证状态，1：基本身份认证，2：资质认证，3：认证完成，4：认证不通过
+		"auditRemark": "XXX备注",            //注册备注
+		"typeList": [{                       //类型List
+			"tid": "1",
+			"name": "区块链",
+			"sortNum": 1
+		}],
+		"regFiles": [{                       //注册附件List
+			"id": 7,
+			"fileName": "10.png",
+			"filePath": "userQrCode/10.png",
+			"fileSize": 2868.0,
+			"fileSuffix": "png",
+			"fileType": "img",
+			"fileMd5": "5f10177762cacf1ca9d1965afc5e06b8",
+			"recordId": "1",
+			"recordType": "MASTER_REG",
+			"updateTime": "2018-12-21 12:41:06"
+		}]
+	}
+}
+
+---导师搜索（搜索所有导师，包括未认证的导师，主要用于在APP端审核导师认证）
+/master/searchAll
+请求
+{
+	"mastername": "",     //可选条件，支持模糊搜索
+	"types": ["1"],       //可选条件，类别，支持多条
+	"city": "上海",       //可选条件，城市
+	"newTecher": "1",     //可选条件，1表示新晋导师
+	"popTecher": "0",     //可选条件，1表示人气导师
+	"pageNum": 1,         //当前页码，分页用，默认1
+	"pageSize": 15        //每页记录条数，分页用，默认15
+}
+响应
+{
+	"msg": "",
+	"total": 1,
+	"records": 3,
+	"errorCode": null,
+	"page": 1,
+	"rows": [{
+		"tid": "5",
+		"mastername": "JeffreyZhao",
+		"gender": "1",
+		"age": 28,
+		"fields": "赵劼，网名老赵，洋名Jeffrey Zhao，花名赵姐夫，金融行业程序员，目前就职于摩根大通（香港）。多年微软MVP，InfoQ中文站兼职编辑。",
+		"level": "1",
+		"monthCount": 50
+	}, {
+		"tid": "6",
+		"mastername": "chenshuo",
+		"gender": "1",
+		"age": 25,
+		"fields": "北京师范大学硕士，擅长 C++ 多线程网络编程和实时分布式系统架构。编写了开源 C++ 网络库 muduo； 参与翻译了《代码大全（第二版）》和《C++ 编程规范（繁体版）》，整理了《C++ Primer 第4版评注版》；曾多次在各地技术大会演讲。《Linux 多线程服务端编程》作者。",
+		"level": "2",
+		"monthCount": 50
+	}, {
+		"tid": "7",
+		"mastername": "huacnlee",
+		"gender": "1",
+		"age": 32,
+		"fields": "李华顺，者也(zheye.org)创始人之一，淘宝MED团队成员，Ruby China 创始人。",
+		"level": "1.5",
+		"monthCount": 50
+	}],
+	"status": "success"
+}
+
+---获取认证信息
+/master/getRegInfo
+请求
+{
+	"userId": 1
+}
+响应
+{
+	"msg": "",
+	"errorCode": null,
+	"status": "success",
+	"master": {
+		"tid": "1",
+		"mastername": "lifesinger",
+		"idNumber": "312XXXXXX",
+		"fields": "淘宝前端类库 KISSY、前端模块化开发框架SeaJS、前端基础类库Arale的创始人。",
+		"level": "5",
+		"firm": "XXX公司",                   //单位
+		"rank": "XXX头衔",                   //头衔
+		"position": "CTO",                   //职位
+		"regTime": "2018-12-24 18:46:44",    //注册时间
+		"newTecher": "0",
+		"popTecher": "1",
+		"userId": 1,
+		"monthCount": 50,
+		"state": "1",                        //认证状态，1：基本身份认证，2：资质认证，3：认证完成，4：认证不通过
+		"auditRemark": "XXX备注",            //注册备注
+		"auditResult": "审核通过",           //认证结果
+		"typeList": [{                       //类型List
+			"tid": "1",
+			"name": "区块链",
+			"sortNum": 1
+		}],
+		"regFiles": [{                       //注册附件List
+			"id": 7,
+			"fileName": "10.png",
+			"filePath": "userQrCode/10.png",
+			"fileSize": 2868.0,
+			"fileSuffix": "png",
+			"fileType": "img",
+			"fileMd5": "5f10177762cacf1ca9d1965afc5e06b8",
+			"recordId": "1",
+			"recordType": "MASTER_REG",
+			"updateTime": "2018-12-21 12:41:06"
+		}]
+	}
+}
+
+---导师认证审核（需要有权限的用户才可以审核，目前：userId=1）
+/master/audit
+请求
+{
+	"tid": "1",                   //导师id
+	"state": "3",                 //3：认证完成，4：认证不通过
+	"auditResult": "审核通过"
+}
+响应
+{
+	"msg": "审核成功！",
+	"errorCode": null,
+	"status": "success"
+}
+
+
 ---文件上传
 /file/uploadFile
 请求：
@@ -427,4 +613,6 @@ file：文件，fileType：文件类型img/video/audio
 ---文件下载（包括图片查看）
 /file/getFile?id=2&thumbnail=1
 thumbnail=1表示请求缩略图，为可选参数
+
+
 

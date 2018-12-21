@@ -52,7 +52,7 @@
 		</javaClientGenerator>
 	
 	
-		<table tableName="t_dic_type" domainObjectName="DicType"
+		<table tableName="t_base_master" domainObjectName="BaseMaster"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false" schema="wdn">

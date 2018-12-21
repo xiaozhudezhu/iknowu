@@ -227,10 +227,10 @@
     from t_sys_user
     where user_name = #{userName}
       <if test="email != null">
-        and email = #{email,jdbcType=VARCHAR}
+        or email = #{email,jdbcType=VARCHAR}
       </if>
       <if test="phonecall != null">
-        and phonecall = #{phonecall,jdbcType=VARCHAR}
+        or phonecall = #{phonecall,jdbcType=VARCHAR}
       </if>
   </select>
   

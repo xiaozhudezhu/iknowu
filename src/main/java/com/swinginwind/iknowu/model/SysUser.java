@@ -114,6 +114,8 @@ public class SysUser implements Serializable {
      */
     private Date createTime;
     
+    private boolean isAdmin;
+    
     private BaseMaster masterInfo;
 
     public Integer getId() {
@@ -242,5 +244,13 @@ public class SysUser implements Serializable {
 
 	public void setQrCodeUrl(String qrCodeUrl) {
 		this.qrCodeUrl = qrCodeUrl;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }

@@ -1,5 +1,6 @@
 package com.swinginwind.core.session;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,12 @@ public class SessionService {
 		sessionThreadLocal.set(obj);
 		sessionIdThreadLocal.set(id);
 		return obj;
+	}
+	
+	@CacheEvict(value="sessionCache", key="#id")
+	public void removeSession(String id) {
+		sessionThreadLocal.set(null);
+		sessionIdThreadLocal.set(null);
 	}
 	
 	public void setCurrentSession(Object obj) {

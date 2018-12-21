@@ -18,4 +18,6 @@ public interface SysUserService {
 
 	public int updatePwd(SysUser user);
 
+	boolean isAdmin();
+
 }
