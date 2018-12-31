@@ -17,6 +17,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		//浏览器访问时会事先调用OPTIONS方法，所以要过滤掉
+		if(request.getMethod().equalsIgnoreCase("OPTIONS"))
+			return true;
 		String loginToken = request.getHeader("Login-Token");
 		if(loginToken == null || sessionService.getSession(loginToken) == null) {
 			System.out.println("用户未登录");

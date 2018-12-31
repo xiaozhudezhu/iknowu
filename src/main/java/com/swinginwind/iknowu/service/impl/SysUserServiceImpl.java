@@ -159,5 +159,10 @@ public class SysUserServiceImpl implements SysUserService {
 		return result;
 		
 	}
+	
+	@Override
+	public SysUser getUserById(int userId) {
+		return userMapper.selectByPrimaryKey(userId);
+	}
 
 }

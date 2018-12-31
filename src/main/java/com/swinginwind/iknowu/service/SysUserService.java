@@ -20,4 +20,6 @@ public interface SysUserService {
 
 	boolean isAdmin();
 
+	SysUser getUserById(int userId);
+
 }

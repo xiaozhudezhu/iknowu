@@ -121,6 +121,14 @@ HTTP方法：POST
 	"status": "success"
 }
 
+---获取用户头像
+/user/getHeadImg?userId=3
+请求方法：get
+请求参数：userId 用户ID
+响应：返回头像图片内容
+
+
+
 ---资源类别
 /dic/getTypes
 请求参数：无
@@ -175,7 +183,7 @@ HTTP方法：POST
 }
 
 ---搜索资源
-/resource/select
+/resource/search
 请求
 {
 	"startTime": "2018-11-2 00:00:00", //可选条件，开始时间
@@ -231,6 +239,7 @@ HTTP方法：POST
 	"urgent": "1",              //紧急程度
 	"price": "100",             //打赏金额
 	"master": "导师1",          //分配导师，多个已逗号分隔
+	"duedate": "2018-12-31 00:00:00",    //需求截止日期
 	"filesQuestion": [          //提问上传的附件，要先逐个调用/file/uploadFile上传文件并返回fileId，将此fileId提交
 		{
 			"id": 2
@@ -252,6 +261,7 @@ HTTP方法：POST
 		"urgent": "1",
 		"price": "100",
 		"master": "导师1",
+		"duedate": "2018-12-31 00:00:00",
 		"state": "0",
 		"filesQuestion": [{  //提问附件列表
 			"id": 2,
@@ -395,6 +405,7 @@ HTTP方法：POST
 		"age": 28,
 		"fields": "赵劼，网名老赵，洋名Jeffrey Zhao，花名赵姐夫，金融行业程序员，目前就职于摩根大通（香港）。多年微软MVP，InfoQ中文站兼职编辑。",
 		"level": "1",
+		"city": "上海",
 		"monthCount": 50
 	}, {
 		"tid": "6",
@@ -403,6 +414,7 @@ HTTP方法：POST
 		"age": 25,
 		"fields": "北京师范大学硕士，擅长 C++ 多线程网络编程和实时分布式系统架构。编写了开源 C++ 网络库 muduo； 参与翻译了《代码大全（第二版）》和《C++ 编程规范（繁体版）》，整理了《C++ Primer 第4版评注版》；曾多次在各地技术大会演讲。《Linux 多线程服务端编程》作者。",
 		"level": "2",
+		"city": "上海",
 		"monthCount": 50
 	}, {
 		"tid": "7",
@@ -411,6 +423,7 @@ HTTP方法：POST
 		"age": 32,
 		"fields": "李华顺，者也(zheye.org)创始人之一，淘宝MED团队成员，Ruby China 创始人。",
 		"level": "1.5",
+		"city": "上海",
 		"monthCount": 50
 	}],
 	"status": "success"
@@ -513,6 +526,7 @@ HTTP方法：POST
 		"age": 28,
 		"fields": "赵劼，网名老赵，洋名Jeffrey Zhao，花名赵姐夫，金融行业程序员，目前就职于摩根大通（香港）。多年微软MVP，InfoQ中文站兼职编辑。",
 		"level": "1",
+		"city": "上海",
 		"monthCount": 50
 	}, {
 		"tid": "6",
@@ -521,6 +535,7 @@ HTTP方法：POST
 		"age": 25,
 		"fields": "北京师范大学硕士，擅长 C++ 多线程网络编程和实时分布式系统架构。编写了开源 C++ 网络库 muduo； 参与翻译了《代码大全（第二版）》和《C++ 编程规范（繁体版）》，整理了《C++ Primer 第4版评注版》；曾多次在各地技术大会演讲。《Linux 多线程服务端编程》作者。",
 		"level": "2",
+		"city": "上海",
 		"monthCount": 50
 	}, {
 		"tid": "7",
@@ -529,6 +544,7 @@ HTTP方法：POST
 		"age": 32,
 		"fields": "李华顺，者也(zheye.org)创始人之一，淘宝MED团队成员，Ruby China 创始人。",
 		"level": "1.5",
+		"city": "上海",
 		"monthCount": 50
 	}],
 	"status": "success"

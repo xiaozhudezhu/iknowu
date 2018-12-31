@@ -1,20 +1,9 @@
 package com.swinginwind.core.utils;
 
-import java.io.IOException;
-import java.sql.Clob;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.BasicSerializerFactory;
-import com.fasterxml.jackson.databind.ser.BeanSerializerFactory;
-import com.fasterxml.jackson.databind.ser.SerializerFactory;
 
 /**
  * <p>
@@ -37,6 +26,8 @@ public class CustomObjectMapper extends ObjectMapper
 
 	public CustomObjectMapper()
     {
+		//目标类中找不到json字符串中属性时直接忽略
+        this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         changeSerializer("yyyy-MM-dd HH:mm:ss");
     }
 

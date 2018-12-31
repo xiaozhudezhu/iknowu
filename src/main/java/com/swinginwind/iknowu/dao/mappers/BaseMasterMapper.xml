@@ -29,7 +29,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     TID, MASTERNAME, GENDER, AGE, ID_NUMBER, PHONECALL, FIELDS, LEVEL, SOURCE, WEIXIN, 
-    ALIPAY, PAYTYPE, TOTALFEE, CITY, FIRM, RANK, POSITION, REG_TIME, NEW_TECHER, POP_TECHER, 
+    ALIPAY, PAYTYPE, TOTALFEE, FIRM, RANK, POSITION, REG_TIME, NEW_TECHER, POP_TECHER, 
     USER_ID, STATE, AUDIT_REMARK, AUDIT_RESULT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -316,7 +316,8 @@
   
   <select id="select" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    (select city from t_sys_user where t_sys_user.id = t_base_master.user_id) as CITY
     from t_base_master
     <where>
      <if test="mastername != null">
@@ -329,10 +330,10 @@
      	and pop_techer = #{popTecher,jdbcType=CHAR}
      </if>
      <if test="city != null and city != ''">
-     	and (exists select 1 from t_sys_user where t_sys_user.city = #{city} and t_sys_user.id = t_base_master.tid)
+     	and exists (select 1 from t_sys_user where t_sys_user.city = #{city} and t_sys_user.id = t_base_master.tid)
      </if>
      <if test="types != null and types.size() > 0">
-     	and (exists select 1 from t_base_master_type where t_base_master_type.type_id in 
+     	and exists (select 1 from t_base_master_type where t_base_master_type.type_id in 
      	<foreach collection="types" item="type" index="index"
              open="(" close=")" separator=",">
       	  #{type}
@@ -344,7 +345,8 @@
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    (select city from t_sys_user where t_sys_user.id = t_base_master.user_id) as CITY
     from t_base_master
     <where>
      <if test="mastername != null">

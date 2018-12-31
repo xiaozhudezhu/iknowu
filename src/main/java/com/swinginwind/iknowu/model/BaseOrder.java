@@ -108,8 +108,16 @@ public class BaseOrder {
      * 对应字段 : MASTER
      */
     private String master;
-
+    
     /**
+     * 截止日期
+     * 表 : t_base_order
+     * 对应字段 : DUEDATE
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  
+    private Date duedate;
+
+	/**
      * 问题处理时间
      * 表 : t_base_order
      * 对应字段 : DELDATE
@@ -272,6 +280,14 @@ public class BaseOrder {
     public void setMaster(String master) {
         this.master = master == null ? null : master.trim();
     }
+    
+    public Date getDuedate() {
+		return duedate;
+	}
+
+	public void setDuedate(Date duedate) {
+		this.duedate = duedate;
+	}
 
     public Date getDeldate() {
         return deldate;

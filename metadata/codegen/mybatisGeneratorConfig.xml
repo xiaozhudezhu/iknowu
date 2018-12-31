@@ -52,7 +52,7 @@
 		</javaClientGenerator>
 	
 	
-		<table tableName="t_base_master" domainObjectName="BaseMaster"
+		<table tableName="t_base_order" domainObjectName="BaseOrder"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false" schema="wdn">
