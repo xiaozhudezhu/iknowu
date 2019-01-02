@@ -1,9 +1,12 @@
 package com.swinginwind.iknowu.controller;
 
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.swinginwind.core.pager.JSONResponse;
 import com.swinginwind.core.session.SessionService;
 import com.swinginwind.core.utils.Identities;
+import com.swinginwind.core.utils.SDKSendTemplateSMS;
 import com.swinginwind.iknowu.model.SysUser;
 import com.swinginwind.iknowu.service.SysUserService;
 
@@ -115,6 +119,65 @@ public class LoginController {
 		
 		return res;
 	}
+	
+	@RequestMapping("sendVerifyCode")
+	@ResponseBody
+	public JSONResponse sendVerifyCode(@RequestBody Map<String, String> param) {
+		String phone = param.get("phone");
+		JSONResponse res = new JSONResponse();
+		String sessionId = Identities.uuid();
+		String code = sessionService.setVerifyCode(sessionId, phone);
+		boolean success = SDKSendTemplateSMS.sendTemplateSMS(phone, "1", new String[] { code.split("_")[1], "3" });
+		if(success) {
+			res.put("sessionId", sessionId);
+			res.setMsg("验证码发送成功");
+		}
+		else
+			res.setStatusAndMsg(false, "验证码发送失败");
+		return res;
+	}
+	
+	@RequestMapping("checkVerifyCode")
+	@ResponseBody
+	public JSONResponse checkVerifyCode(@RequestBody  Map<String, String> param) {
+		String sessionId = param.get("sessionId");
+		String code = param.get("code");
+		JSONResponse res = new JSONResponse();
+		boolean success = false;
+		if(!StringUtils.isEmpty(code)) {
+			String codeStr = sessionService.getVerifyCode(sessionId);
+			if(!StringUtils.isEmpty(codeStr)) {
+				sessionService.removeVerifyCode(sessionId);
+				String[] codeArr = codeStr.split("_");
+				String phone = codeArr[0];
+				String verifyCode = codeArr[1];
+				if(code.equals(verifyCode)) {
+					//注册系统
+					SysUser user = new SysUser();
+					user.setPhonecall(phone);
+					try {
+						user = userService.phoneLogin(user);
+						success = true;
+						res.put("user", user);
+						String loginToken = Identities.uuid();
+						res.put("loginToken", loginToken);
+						sessionService.setSession(loginToken, user);
+						user.setAdmin(userService.isAdmin());
+					} catch (Exception e) {
+						res.setStatusAndMsg(false, "注册失败," + e.getMessage());
+					}
+				}
+			}
+		}
+		if(success) {
+			res.setMsg("验证成功");
+		}
+		else {
+			res.setStatusAndMsg(false, "验证失败");
+		}
+		return res;
+	}
+	
 	
 
 }

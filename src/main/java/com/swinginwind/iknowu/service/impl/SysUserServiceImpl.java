@@ -81,6 +81,18 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 		return user;
 	}
+	
+	@Override
+	public SysUser phoneLogin(SysUser user1) throws Exception {
+		SysUser user = userMapper.selectByPhone(user1.getPhonecall());
+		if (user != null)
+			return user;
+		else {
+			this.register(user1, false);
+			user = user1;
+		}
+		return user;
+	}
 
 	@Override
 	public void register(SysUser user, boolean createAccount) throws Exception {

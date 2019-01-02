@@ -71,6 +71,51 @@ HTTP方法：POST
 }
 
 
+---获取短信验证码
+/sendVerifyCode
+请求
+{
+	"phone": "15021930517"
+}
+响应
+{
+	"msg": "验证码发送成功",
+	"errorCode": null,
+	"sessionId": "42b36e3ecf0a4e85bcdbace473c21d5c",   //sessionId，验证验证码需要传入
+	"status": "success"
+}
+
+---验证短信验证码：如果未注册则成功后会创建一条用户记录；如果已注册过，则直接返回该用户记录
+/checkVerifyCode
+请求
+{
+	"sessionId": "2815687191554d20ba83912d7bc87d19",   //前一个接口返回的sessionId
+	"code": "717625"                                   //验证码
+}
+响应
+成功
+{
+	"msg": "验证成功",
+	"errorCode": null,
+	"loginToken": "c9c5134fa24848ee81fe81f9d15fd85a",  //令牌，后续请求需要增加Login-Token的http header
+	"user": {
+		"id": 18,
+		"phonecall": "15021930517",
+		"qrCodeUrl": "26",
+		"status": "1",
+		"createTime": "2019-01-02 19:29:44",
+		"admin": false
+	},
+	"status": "success"
+}
+失败
+{
+	"msg": "验证失败",
+	"errorCode": null,
+	"status": "failed"
+}
+
+
 ---更新用户信息
 /user/updateUser
 请求

@@ -20,12 +20,14 @@ public interface SysUserMapper {
     SysUser checkLogin(SysUser user);
     
     /**
-     * 根据用户名、邮箱等判断是否已使用过
+     * 根据用户名、邮箱、手机号等判断是否已使用过
      * @param user
      * @return
      */
     int checkExists(SysUser user);
     
     SysUser selectByWechatId(@Param("wechatId") String wechatId);
+    
+    SysUser selectByPhone(@Param("phone") String phone);
     
 }

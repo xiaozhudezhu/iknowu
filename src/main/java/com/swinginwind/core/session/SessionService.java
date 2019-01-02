@@ -1,5 +1,7 @@
 package com.swinginwind.core.session;
 
+import java.util.Random;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -54,6 +56,27 @@ public class SessionService {
 			return sessionIdThreadLocal.get();
 		}
 		return null;
+	}
+	
+	@Cacheable(value="verifyCodeCache", key="#sessionId")
+	public String getVerifyCode(String sessionId) {
+		return null;
+	}
+	
+	@CachePut(value="verifyCodeCache", key="#sessionId")
+	public String setVerifyCode(String sessionId, String phone, String code) {
+		return phone + "_" + code;
+	}
+	
+	@CacheEvict(value="verifyCodeCache", key="#sessionId")
+	public void removeVerifyCode(String sessionId) {
+	}
+	
+	@CachePut(value="verifyCodeCache", key="#sessionId")
+	public String setVerifyCode(String sessionId, String phone) {
+		String verifyCode = String
+                .valueOf(new Random().nextInt(899999) + 100000);
+		return phone + "_" + verifyCode;
 	}
 
 }

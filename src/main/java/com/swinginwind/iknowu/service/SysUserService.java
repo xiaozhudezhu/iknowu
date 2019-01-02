@@ -11,6 +11,8 @@ public interface SysUserService {
 	public void register(SysUser user, boolean createAccount) throws Exception;
 
 	SysUser wechatLogin(WxMpUser wxUser) throws Exception;
+	
+	SysUser phoneLogin(SysUser user) throws Exception;
 
 	SysUser getCurrentUser();
 

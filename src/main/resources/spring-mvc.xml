@@ -83,8 +83,12 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/login" />
+			<mvc:exclude-mapping path="/wxLogin" />
 			<mvc:exclude-mapping path="/register" />
+			<mvc:exclude-mapping path="/sendVerifyCode" />
+			<mvc:exclude-mapping path="/checkVerifyCode" />
 			<mvc:exclude-mapping path="/file/getFile" />
+			<mvc:exclude-mapping path="/user/getHeadImg" />
 			<mvc:exclude-mapping path="/static/**" />
 			<bean class="com.swinginwind.core.filter.LoginInterceptor"></bean>
 		</mvc:interceptor>

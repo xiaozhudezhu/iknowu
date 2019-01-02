@@ -213,13 +213,30 @@
     select 
     <include refid="Base_Column_List" />
     from t_sys_user
-    where user_name = #{userName} and pwd = #{pwd}
+	<where>
+      <if test="userName != null">
+        or user_name = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null">
+        or email = #{email,jdbcType=VARCHAR}
+      </if>
+      <if test="phonecall != null">
+        or phonecall = #{phonecall,jdbcType=VARCHAR}
+      </if>
+    and pwd = #{pwd}
+    </where>
   </select>
   <select id="selectByWechatId" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_sys_user
     where wechat_id = #{wechatId}
+  </select>
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_user
+    where phonecall = #{phone}
   </select>
   <select id="checkExists" resultType="int">
     select 
