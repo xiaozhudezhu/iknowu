@@ -66,6 +66,7 @@ public class BaseOrderServiceImpl implements BaseOrderService {
 		orderNew.setDeldate(new Date());
 		orderNew.setDelprocess(order.getDelprocess());
 		orderNew.setState("1");
+		fileMapper.deleteUnusedFilesWhenUpdate(order.getOid(), "ORDER_A", order.getFilesAnswer());
 		if(order.getFilesAnswer() != null && order.getFilesAnswer().size() > 0) {
 			for(int i = 0; i < order.getFilesAnswer().size(); i ++) {
 				BaseFile file = order.getFilesAnswer().get(i);

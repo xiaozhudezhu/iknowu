@@ -81,6 +81,7 @@ public class BaseMasterServiceImpl implements BaseMasterService {
 			bm.setTypeList(master.getTypeList());
 			bm.setRegFiles(master.getRegFiles());
 			baseMasterMapper.updateByPrimaryKey(bm);
+			fileMapper.deleteUnusedFilesWhenUpdate(bm.getTid(), "MASTER_REG", master.getRegFiles());
 		}
 		baseMasterMapper.updateMasterTypes(bm);
 		if(bm.getRegFiles() != null && bm.getRegFiles().size() > 0) {

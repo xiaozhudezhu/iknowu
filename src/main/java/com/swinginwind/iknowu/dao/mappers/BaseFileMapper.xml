@@ -181,4 +181,14 @@
     where record_id = #{recordId,jdbcType=VARCHAR} and record_type = #{recordType,jdbcType=VARCHAR}
     order by sort_code
   </select>
+  <delete id="deleteUnusedFilesWhenUpdate">
+  	delete from t_base_file where record_id = #{recordId,jdbcType=VARCHAR} and record_type = #{recordType,jdbcType=VARCHAR}
+  	<if test="fileList != null and fileList.size() > 0">
+      and id not in
+      <foreach collection="fileList" item="file" index="index"
+             open="(" close=")" separator=",">
+      	  #{file.id}
+      </foreach>
+    </if>
+  </delete>
 </mapper>
