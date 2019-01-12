@@ -296,11 +296,20 @@
     (select t2.nick_name from t_sys_user t2 where t.answer_user=t2.id) as answer_user_name
     from t_base_order t
     <where>
+      <if test="oid != null">
+        and t.OID = #{oid}
+      </if>
       <if test="createUser != null">
         and t.CREATE_USER = #{createUser,jdbcType=INTEGER}
       </if>
       <if test="answerUser != null">
         and t.ANSWER_USER = #{answerUser,jdbcType=INTEGER}
+      </if>
+      <if test="master == ''">
+        and t.MASTER is null
+      </if>
+      <if test="master != null and master != ''">
+        and t.MASTER = #{master}
       </if>
       <if test="startTime != null">
         and t.DATE &gt; #{startTime,jdbcType=TIMESTAMP}

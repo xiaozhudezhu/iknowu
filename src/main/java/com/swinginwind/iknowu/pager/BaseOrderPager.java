@@ -15,6 +15,13 @@ public class BaseOrderPager extends Page<BaseOrder> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+     * 
+     * 表 : t_base_order
+     * 对应字段 : OID
+     */
+    private String oid;
 
 	/**
 	 * 提问开始时间
@@ -32,6 +39,11 @@ public class BaseOrderPager extends Page<BaseOrder> {
 	 * 提问用户ID
 	 */
 	private Integer createUser;
+	
+	/**
+	 * 指定导师ID
+	 */
+	private String master;
 	
 	/**
 	 * 回答用户ID
@@ -98,6 +110,22 @@ public class BaseOrderPager extends Page<BaseOrder> {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getMaster() {
+		return master;
+	}
+
+	public void setMaster(String master) {
+		this.master = master;
+	}
+
+	public String getOid() {
+		return oid;
+	}
+
+	public void setOid(String oid) {
+		this.oid = oid;
 	}
 	
 	
