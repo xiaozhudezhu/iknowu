@@ -110,6 +110,13 @@ public class BaseOrder {
     private String master;
     
     /**
+     * 指定的资源
+     * 表 : t_base_order
+     * 对应字段 : RESOURCE
+     */
+    private String resource;
+    
+    /**
      * 截止日期
      * 表 : t_base_order
      * 对应字段 : DUEDATE
@@ -133,7 +140,7 @@ public class BaseOrder {
     private String delprocess;
 
     /**
-     * 问题状态，0：创建；1：已回答；2：已评价
+     * 问题状态，0：可抢单（未指派）；1：已指派未处理；2：处理中；3：已评价
      * 表 : t_base_order
      * 对应字段 : STATE
      */
@@ -176,6 +183,11 @@ public class BaseOrder {
      * 回答问题附件
      */
     private List<BaseFile> filesAnswer;
+    
+    /**
+     * 对话内容
+     */
+    private List<OrderDialog> dialogs;
     
     public String getOid() {
         return oid;
@@ -383,5 +395,21 @@ public class BaseOrder {
 
 	public void setAnswerUserName(String answerUserName) {
 		this.answerUserName = answerUserName;
+	}
+
+	public List<OrderDialog> getDialogs() {
+		return dialogs;
+	}
+
+	public void setDialogs(List<OrderDialog> dialogs) {
+		this.dialogs = dialogs;
+	}
+
+	public String getResource() {
+		return resource;
+	}
+
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 }

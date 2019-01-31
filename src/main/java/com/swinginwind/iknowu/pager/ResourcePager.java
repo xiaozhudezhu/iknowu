@@ -42,6 +42,45 @@ public class ResourcePager extends Page<Resource> {
 	 * 资源类别
 	 */
 	private List<String> types;
+	
+	/**
+	 * 城市
+	 */
+	private String city;
+	
+	/**
+	 * 内容（模糊查询）
+	 */
+	private String resContent;
+	
+	/**
+	 * 导师名称（模糊查询）
+	 */
+	private String masterName;
+	
+	/**
+     * 创建时间一周(可调)以内认为是新进资源
+     * 表 : t_resource
+     * 对应字段 : NEW_TECHER
+     */
+    private String newTecher;
+
+    /**
+     * 超过10个需求（可调）认为是热门资源
+     * 表 : t_resource
+     * 对应字段 : POP_TECHER
+     */
+    private String popTecher;
+    
+    /**
+     * 最低热门资源限制
+     */
+    private Integer popCountLimit;
+    
+    /**
+     * 最低新进资源限制
+     */
+    private Integer newDayLimit;
 
 	public Date getStartTime() {
 		return startTime;
@@ -85,6 +124,62 @@ public class ResourcePager extends Page<Resource> {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getResContent() {
+		return resContent;
+	}
+
+	public void setResContent(String resContent) {
+		this.resContent = resContent;
+	}
+
+	public String getMasterName() {
+		return masterName;
+	}
+
+	public void setMasterName(String masterName) {
+		this.masterName = masterName;
+	}
+
+	public String getNewTecher() {
+		return newTecher;
+	}
+
+	public void setNewTecher(String newTecher) {
+		this.newTecher = newTecher;
+	}
+
+	public String getPopTecher() {
+		return popTecher;
+	}
+
+	public void setPopTecher(String popTecher) {
+		this.popTecher = popTecher;
+	}
+
+	public Integer getPopCountLimit() {
+		return popCountLimit;
+	}
+
+	public void setPopCountLimit(Integer popCountLimit) {
+		this.popCountLimit = popCountLimit;
+	}
+
+	public Integer getNewDayLimit() {
+		return newDayLimit;
+	}
+
+	public void setNewDayLimit(Integer newDayLimit) {
+		this.newDayLimit = newDayLimit;
 	}
 	
 	

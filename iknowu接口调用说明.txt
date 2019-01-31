@@ -1,4 +1,4 @@
-﻿访问地址：http://47.96.161.119/iknowu-server
+﻿﻿访问地址：http://47.96.161.119/iknowu-server
 消息头：Content-Type: application/json
 HTTP方法：POST
 *****登录成功后需要增加HTTP Header令牌信息：Login-Token=loginToken，如果未带令牌或令牌已失效，则访问除了/login /register之外的请求将会返回HTTP STATUS = 401
@@ -85,12 +85,13 @@ HTTP方法：POST
 	"status": "success"
 }
 
----验证短信验证码：如果未注册则成功后会创建一条用户记录；如果已注册过，则直接返回该用户记录
+---验证短信验证码：doLogin不传或不等于1时，单纯验证验证码；doLogin=1时如果未注册则成功后会创建一条用户记录；如果已注册过，则直接返回该用户记录
 /checkVerifyCode
 请求
 {
 	"sessionId": "2815687191554d20ba83912d7bc87d19",   //前一个接口返回的sessionId
-	"code": "717625"                                   //验证码
+	"code": "717625",                                  //验证码
+	"doLogin": "1"                                     //是否用于登录
 }
 响应
 成功
@@ -208,7 +209,8 @@ HTTP方法：POST
 	"name": "可联系周志华",
 	"resContent": "联系周志华，解决你的智能分析问题",
 	"type": 1,
-	"price": 200
+	"price": 200,
+        "city": "上海市/徐汇区"
 }
 响应
 {
@@ -221,8 +223,22 @@ HTTP方法：POST
 		"createUser": 10,
 		"date": "2018-12-21 18:23:36",
 		"price": "200",
+		"city": "上海市/徐汇区",
 		"state": "1"
 	},
+	"errorCode": null,
+	"status": "success"
+}
+
+---删除资源，只能删除自己创建的资源
+/resource/delete
+请求
+{
+	"rid": "6b20eec0fe9d47538b3f0a5bb51dade1"
+}
+响应
+{
+	"msg": "delete success!",
 	"errorCode": null,
 	"status": "success"
 }
@@ -236,6 +252,11 @@ HTTP方法：POST
 	"createUser": 10,                  //可选条件，创建用户
 	"states": ["1"],                   //可选条件，资源状态，1：创建；2：暂停；3：失效
 	"types": ["1", "2"],               //可选条件，资源类别，从/dic/getTypes接口获取
+	"city": "上海",                    //可选条件，城市或地区，支持开始的模糊匹配
+	"masterName": "life",              //可选条件，导师名称，支持模糊匹配
+	"resContent": "智能分析",          //可选条件，资源内容，支持模糊匹配
+	"popTecher": "1",                  //可选条件，是否热门资源，目前被需求使用2次以上为热门资源（可配置）
+	"newTecher": "1",                  //可选条件，是否新进，目前创建14天以内为新进资源（可配置）
 	"pageNum": 1,                      //当前页码，分页用，默认1
 	"pageSize": 15                     //每页记录条数，分页用，默认15
 }
@@ -254,6 +275,7 @@ HTTP方法：POST
 		"typeName": "人工智能",
 		"createUser": 10,
 		"createUserName": "邓孟君",
+		"masterLevel": "1",
 		"date": "2018-12-21 18:46:24",
 		"price": "200",
 		"state": "1"
@@ -265,6 +287,7 @@ HTTP方法：POST
 		"typeName": "区块链",
 		"createUser": 10,
 		"createUserName": "邓孟君",
+		"masterLevel": "1",
 		"date": "2018-12-21 18:23:36",
 		"price": "200",
 		"state": "1"
@@ -283,7 +306,8 @@ HTTP方法：POST
 	"implevel": "1",            //重要程度
 	"urgent": "1",              //紧急程度
 	"price": "100",             //打赏金额
-	"master": "导师1",          //分配导师，多个已逗号分隔
+	"master": "1",              //分配导师
+	"resource": "7784bacfb32745dbab3e7b7fa1693923",              //使用的资源ID，用以统计资源热门程度
 	"duedate": "2018-12-31 00:00:00",    //需求截止日期
 	"filesQuestion": [          //提问上传的附件，要先逐个调用/file/uploadFile上传文件并返回fileId，将此fileId提交
 		{
@@ -306,8 +330,9 @@ HTTP方法：POST
 		"urgent": "1",
 		"price": "100",
 		"master": "导师1",
+		"resource": "7784bacfb32745dbab3e7b7fa1693923",
 		"duedate": "2018-12-31 00:00:00",
-		"state": "0",
+		"state": "1",
 		"filesQuestion": [{  //提问附件列表
 			"id": 2,
 			"sortCode": 1,
@@ -318,7 +343,7 @@ HTTP方法：POST
 }
 
 
----答题
+---答题（已取消）
 /order/answer
 请求：
 {
@@ -333,6 +358,38 @@ HTTP方法：POST
 响应：
 {
 	"msg": "answer success!",
+	"errorCode": null,
+	"status": "success"
+}
+
+---对话
+/order/dialog
+请求：
+{
+	"oid": "9bbbacfedb074d4b8e16bf13b526b437",  //订单 id
+	"content": "PPPPPP",                        //回答内容
+	"files": [                                  //回答附件列表，要先逐个调用/file/uploadFile上传文件并返回fileId，将此fileId提交
+		{
+			"id": 1
+		}
+	]
+}
+响应：
+{
+	"msg": "dialog success!",
+	"errorCode": null,
+	"status": "success"
+}
+
+---删除对话，只能删除自己创建的对话内容
+/order/delDialog
+请求：
+{
+	"id": 3    //dialog ID
+}
+响应：
+{
+	"msg": "delete success!",
 	"errorCode": null,
 	"status": "success"
 }
@@ -358,14 +415,15 @@ HTTP方法：POST
 /order/search
 请求：
 {
-	"oid": "1a589889f32f4a47ba23f0b1230ccf80", //可选条件，order id
+	"oid": "9bbbacfedb074d4b8e16bf13b526b437", //可选条件，order id，此字段不为空时将返回会话内容
 	"startTime": "2018-11-2 00:00:00", //可选条件，开始时间（针对提出时间）
 	"endTime": "2018-11-2 00:00:00",   //可选条件，截止时间（针对提出时间）
 	"createUser": 1,                   //可选条件，提问用户ID（我问）
 	"answerUser": 1,                   //可选条件，回答用户ID，未回答前该字段为空
 	"master": "1",                     //可选条件，指定导师ID（该我回答）。不传该参数认为该参数不作为查询条件；传入""字符串代表查询所有未指定导师的记录
-	"states": ["2"],                   //可选条件，问题状态，0：创建；1：已回答；2：已评价
-	"types": ["JAVA"],                 //可选条件，问题类别
+	"resource": "",                    //可选条件，可以按使用的资源ID查询数据
+	"states": ["2"],                   //可选条件，0：可抢单（未指派）；1：已指派未处理；2：处理中；3：已评价
+	"types": ["1"],                    //可选条件，问题类别
 	"pageNum": 1,                      //当前页码，分页用，默认1
 	"pageSize": 15                     //每页记录条数，分页用，默认15
 }
@@ -391,8 +449,8 @@ HTTP方法：POST
 		"urgent": "1",
 		"price": "100",
 		"master": "导师1",
-		"deldate": "2018-11-02 00:00:00", //回答时间
-		"delprocess": "EEEEEE",           //回答内容
+		//"deldate": "2018-11-02 00:00:00", //回答时间（已取消）
+		//"delprocess": "EEEEEE",           //回答内容（已取消）
 		"state": "2",
 		"cusContent": "FFFFFF",           //问题状态，0：创建；1：已回答；2：已评价
 		"cusResult": "4",
@@ -409,17 +467,33 @@ HTTP方法：POST
 			"recordType": "ORDER_Q",
 			"updateTime": "2018-10-17 12:25:05"
 		}],
-		"filesAnswer": [{
+		"dialogs": [{                                        //如果单独查询某一条（即oid不为空）则返回会话内容
 			"id": 1,
-			"fileName": "0C0A8434_1副本.jpg",
-			"filePath": "0C0A8434_1副本.jpg",
-			"fileSize": 11111.0,
-			"fileSuffix": "jpg",
-			"fileType": "img",
-			"fileMd5": "acccdddddff",
-			"sortCode": 1,
-			"recordId": "9bbbacfedb074d4b8e16bf13b526b437",
-			"recordType": "ORDER_A"
+			"oid": "9bbbacfedb074d4b8e16bf13b526b437",
+			"createUser": 1,
+			"createUserName": "demo",
+			"createDate": "2019-01-31 17:23:58",
+			"content": "PPPPP",
+			"files": [{
+				"id": 1,
+				"fileName": "0C0A8434_1副本.jpg",
+				"filePath": "0C0A8434_1副本.jpg",
+				"fileSize": 11111.0,
+				"fileSuffix": "jpg",
+				"fileType": "img",
+				"fileMd5": "acccdddddff",
+				"sortCode": 1,
+				"recordId": "1",
+				"recordType": "ORDER_D"
+			}]
+		}, {
+			"id": 2,
+			"oid": "9bbbacfedb074d4b8e16bf13b526b437",
+			"createUser": 1,
+			"createUserName": "demo",
+			"createDate": "2019-01-31 17:25:00",
+			"content": "PPPPP",
+			"files": []
 		}]
 	}],
 	"status": "success"

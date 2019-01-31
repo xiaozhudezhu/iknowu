@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.swinginwind.core.utils.ApplicationPropsUtil;
 import com.swinginwind.core.utils.Identities;
 import com.swinginwind.iknowu.dao.BaseFileMapper;
 import com.swinginwind.iknowu.dao.BaseMasterMapper;
@@ -39,6 +40,8 @@ public class BaseMasterServiceImpl implements BaseMasterService {
 
 	@Override
 	public List<BaseMaster> select(BaseMasterPager pager) {
+		pager.setNewDayLimit(Integer.parseInt(ApplicationPropsUtil.getPropsValue("config.newDayLimit")));
+		pager.setPopCountLimit(Integer.parseInt(ApplicationPropsUtil.getPropsValue("config.popCountLimit")));
 		return baseMasterMapper.select(pager);
 	}
 	

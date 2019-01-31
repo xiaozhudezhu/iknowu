@@ -340,6 +340,12 @@
     	</foreach>
      	and t_base_master_type.master_id = t_base_master.tid)
      </if>
+     <if test="popTecher == '1'.toString()">
+      	and (select count(1) from t_base_order where t_base_master.USER_ID = t_base_order.ANSWER_USER) &gt;= ${popCountLimit}
+      </if>
+      <if test="newTecher == '1'.toString()">
+        and REG_TIME &gt;= date_add(now(), interval -${newDayLimit} day) 
+      </if>
      and state = '3'
     </where>
   </select>

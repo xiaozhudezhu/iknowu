@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.swinginwind.core.pager.JSONResponse;
 import com.swinginwind.core.pager.JqgridResponse;
 import com.swinginwind.iknowu.model.BaseOrder;
-import com.swinginwind.iknowu.model.SysUser;
+import com.swinginwind.iknowu.model.OrderDialog;
 import com.swinginwind.iknowu.pager.BaseOrderPager;
 import com.swinginwind.iknowu.service.BaseOrderService;
+import com.swinginwind.iknowu.service.SysUserService;
 
 @Controller
 @RequestMapping("order")
@@ -22,6 +23,9 @@ public class BaseOrderController {
 	
 	@Autowired
 	BaseOrderService orderService;
+	
+	@Autowired
+	private SysUserService userService;
 	
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	@ResponseBody
@@ -33,6 +37,20 @@ public class BaseOrderController {
 		return res;
 	}
 	
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONResponse delete(@RequestBody BaseOrder order, HttpServletRequest request) {
+		JSONResponse res = new JSONResponse();
+		if(userService.isAdmin() || userService.getCurrentUser().getId().equals(order.getCreateUser())) {
+			orderService.delete(order);
+			res.setMsg("delete success!");
+		}
+		else {
+			res.setStatusAndMsg(false, "非法操作！");
+		}
+		return res;
+	}
+	
 	@RequestMapping("search")
 	@ResponseBody
 	public JqgridResponse<BaseOrder> search(@RequestBody BaseOrderPager pager) {
@@ -41,15 +59,38 @@ public class BaseOrderController {
 		return res;
 	}
 	
+	@Deprecated
 	@RequestMapping(value = "answer", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONResponse answer(@RequestBody BaseOrder order, HttpServletRequest request) {
 		JSONResponse res = new JSONResponse();
-		SysUser user = (SysUser) request.getSession().getAttribute("user");
-		if(user != null)
-			order.setAnswerUser(user.getId());
 		orderService.answer(order);
 		res.setMsg("answer success!");
+		return res;
+	}
+	
+	@RequestMapping(value = "dialog", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONResponse dialog(@RequestBody OrderDialog dialog, HttpServletRequest request) {
+		JSONResponse res = new JSONResponse();
+		orderService.dialog(dialog);
+		res.setMsg("dialog success!");
+		return res;
+	}
+	
+	@RequestMapping(value = "delDialog", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONResponse delDialog(@RequestBody OrderDialog dialog, HttpServletRequest request) {
+		JSONResponse res = new JSONResponse();
+		dialog = orderService.selectDialogById(dialog.getId());
+		if(userService.isAdmin() || userService.getCurrentUser().getId().equals(dialog.getCreateUser())) {
+			orderService.delDialog(dialog);
+			res.setMsg("delete success!");
+		}
+		else {
+			res.setStatusAndMsg(false, "非法操作！");
+		}
+		
 		return res;
 	}
 	
@@ -57,9 +98,6 @@ public class BaseOrderController {
 	@ResponseBody
 	public JSONResponse evaluate(@RequestBody BaseOrder order, HttpServletRequest request) {
 		JSONResponse res = new JSONResponse();
-		SysUser user = (SysUser) request.getSession().getAttribute("user");
-		if(user != null)
-			order.setAnswerUser(user.getId());
 		orderService.evaluate(order);
 		res.setMsg("evaluate success!");
 		return res;

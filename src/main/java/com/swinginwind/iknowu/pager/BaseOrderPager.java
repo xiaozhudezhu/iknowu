@@ -46,6 +46,11 @@ public class BaseOrderPager extends Page<BaseOrder> {
 	private String master;
 	
 	/**
+	 * 指定资源ID
+	 */
+	private String resource;
+	
+	/**
 	 * 回答用户ID
 	 */
 	private Integer answerUser;
@@ -126,6 +131,14 @@ public class BaseOrderPager extends Page<BaseOrder> {
 
 	public void setOid(String oid) {
 		this.oid = oid;
+	}
+
+	public String getResource() {
+		return resource;
+	}
+
+	public void setResource(String resource) {
+		this.resource = resource;
 	}
 	
 	

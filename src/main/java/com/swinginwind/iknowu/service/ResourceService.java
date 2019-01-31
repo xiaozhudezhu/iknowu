@@ -21,6 +21,13 @@ public interface ResourceService {
 	 */
 	public List<Resource> select(ResourcePager pager);
 
+	/**
+	 * 删除资源
+	 * @param res
+	 * @return
+	 */
+	int delete(Resource res);
+
 	
 
 }

@@ -14,6 +14,7 @@ import com.swinginwind.core.pager.JqgridResponse;
 import com.swinginwind.iknowu.model.Resource;
 import com.swinginwind.iknowu.pager.ResourcePager;
 import com.swinginwind.iknowu.service.ResourceService;
+import com.swinginwind.iknowu.service.SysUserService;
 
 @Controller
 @RequestMapping("resource")
@@ -22,6 +23,9 @@ public class ResourceController {
 	@Autowired
 	ResourceService resService;
 	
+	@Autowired
+	private SysUserService userService;
+	
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONResponse create(@RequestBody Resource resource, HttpServletRequest request) {
@@ -29,6 +33,20 @@ public class ResourceController {
 		resService.insert(resource);
 		res.setMsg("create success!");
 		res.put("resource", resource);
+		return res;
+	}
+	
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONResponse delete(@RequestBody Resource resource, HttpServletRequest request) {
+		JSONResponse res = new JSONResponse();
+		if(userService.isAdmin() || userService.getCurrentUser().getId().equals(resource.getCreateUser())) {
+			resService.delete(resource);
+			res.setMsg("delete success!");
+		}
+		else {
+			res.setStatusAndMsg(false, "非法操作！");
+		}
 		return res;
 	}
 	

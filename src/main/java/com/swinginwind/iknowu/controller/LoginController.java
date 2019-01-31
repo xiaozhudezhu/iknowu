@@ -142,6 +142,7 @@ public class LoginController {
 	public JSONResponse checkVerifyCode(@RequestBody  Map<String, String> param) {
 		String sessionId = param.get("sessionId");
 		String code = param.get("code");
+		boolean doLogin = "1".equals(param.get("doLogin")) ? true : false;
 		JSONResponse res = new JSONResponse();
 		boolean success = false;
 		if(!StringUtils.isEmpty(code)) {
@@ -156,13 +157,15 @@ public class LoginController {
 					SysUser user = new SysUser();
 					user.setPhonecall(phone);
 					try {
-						user = userService.phoneLogin(user);
+						if(doLogin) {
+							user = userService.phoneLogin(user);
+							res.put("user", user);
+							String loginToken = Identities.uuid();
+							res.put("loginToken", loginToken);
+							sessionService.setSession(loginToken, user);
+							user.setAdmin(userService.isAdmin());
+						}
 						success = true;
-						res.put("user", user);
-						String loginToken = Identities.uuid();
-						res.put("loginToken", loginToken);
-						sessionService.setSession(loginToken, user);
-						user.setAdmin(userService.isAdmin());
 					} catch (Exception e) {
 						res.setStatusAndMsg(false, "注册失败," + e.getMessage());
 					}

@@ -49,6 +49,8 @@ public class Resource {
     
     private String createUserName;
     
+    private String masterLevel;
+    
     /**
      * 问题提出时间
      * 表 : t_resource
@@ -62,6 +64,13 @@ public class Resource {
      * 对应字段 : PRICE
      */
     private String price;
+    
+    /**
+     * 
+     * 表 : t_resource
+     * 对应字段 : CITY
+     */
+    private String city;
 
     /**
      * 问题状态
@@ -69,6 +78,20 @@ public class Resource {
      * 对应字段 : STATE
      */
     private String state;
+    
+    /**
+     * 创建时间一周(可调)以内认为是新进资源
+     * 表 : t_resource
+     * 对应字段 : NEW_TECHER
+     */
+    private String newTecher;
+
+    /**
+     * 超过10个需求（可调）认为是热门资源
+     * 表 : t_resource
+     * 对应字段 : POP_TECHER
+     */
+    private String popTecher;
 
     public String getRid() {
         return rid;
@@ -156,5 +179,37 @@ public class Resource {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getNewTecher() {
+		return newTecher;
+	}
+
+	public void setNewTecher(String newTecher) {
+		this.newTecher = newTecher;
+	}
+
+	public String getPopTecher() {
+		return popTecher;
+	}
+
+	public void setPopTecher(String popTecher) {
+		this.popTecher = popTecher;
+	}
+
+	public String getMasterLevel() {
+		return masterLevel;
+	}
+
+	public void setMasterLevel(String masterLevel) {
+		this.masterLevel = masterLevel;
 	}
 }

@@ -24,6 +24,16 @@ public class BaseMasterPager extends Page<BaseMaster> {
 	
 	private String popTecher;
 	
+	/**
+     * 最低热门资源限制
+     */
+    private Integer popCountLimit;
+    
+    /**
+     * 最低新进资源限制
+     */
+    private Integer newDayLimit;
+	
 	private String city;
 	
 	private List<String> types;
@@ -75,6 +85,22 @@ public class BaseMasterPager extends Page<BaseMaster> {
 
 	public void setTypes(List<String> types) {
 		this.types = types;
+	}
+
+	public Integer getPopCountLimit() {
+		return popCountLimit;
+	}
+
+	public void setPopCountLimit(Integer popCountLimit) {
+		this.popCountLimit = popCountLimit;
+	}
+
+	public Integer getNewDayLimit() {
+		return newDayLimit;
+	}
+
+	public void setNewDayLimit(Integer newDayLimit) {
+		this.newDayLimit = newDayLimit;
 	}
 	
 
