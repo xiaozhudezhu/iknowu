@@ -1,7 +1,7 @@
 ﻿﻿访问地址：http://47.96.161.119/iknowu-server
 消息头：Content-Type: application/json
 HTTP方法：POST
-*****登录成功后需要增加HTTP Header令牌信息：Login-Token=loginToken，如果未带令牌或令牌已失效，则访问除了/login /register之外的请求将会返回HTTP STATUS = 401
+*****登录成功后需要增加HTTP Header令牌信息：Login-Token=loginToken，如果未带令牌或令牌已失效，则访问除了/login /register等（详见spring-mvc配置文件排除列表）之外的请求将会返回HTTP STATUS = 401
 
 ---登录：
 /login
