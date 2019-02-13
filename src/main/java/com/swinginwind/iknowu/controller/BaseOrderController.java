@@ -41,6 +41,7 @@ public class BaseOrderController {
 	@ResponseBody
 	public JSONResponse delete(@RequestBody BaseOrder order, HttpServletRequest request) {
 		JSONResponse res = new JSONResponse();
+		order = orderService.selectByPrimaryKey(order.getOid());
 		if(userService.isAdmin() || userService.getCurrentUser().getId().equals(order.getCreateUser())) {
 			orderService.delete(order);
 			res.setMsg("delete success!");

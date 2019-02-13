@@ -50,6 +50,8 @@ public interface BaseOrderService {
 	 * @return
 	 */
 	int delete(BaseOrder order);
+	
+	BaseOrder selectByPrimaryKey(String oid);
 
 	/**
 	 * 删除对话

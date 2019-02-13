@@ -28,6 +28,6 @@ public interface ResourceService {
 	 */
 	int delete(Resource res);
 
-	
+	Resource selectByPrimaryKey(String rid);
 
 }

@@ -46,4 +46,9 @@ public class ResourceServiceImpl implements ResourceService {
 		return resList;
 	}
 
+	@Override
+	public Resource selectByPrimaryKey(String rid) {
+		return resMapper.selectByPrimaryKey(rid);
+	}
+
 }

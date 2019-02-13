@@ -40,6 +40,7 @@ public class ResourceController {
 	@ResponseBody
 	public JSONResponse delete(@RequestBody Resource resource, HttpServletRequest request) {
 		JSONResponse res = new JSONResponse();
+		resource = resService.selectByPrimaryKey(resource.getRid());
 		if(userService.isAdmin() || userService.getCurrentUser().getId().equals(resource.getCreateUser())) {
 			resService.delete(resource);
 			res.setMsg("delete success!");

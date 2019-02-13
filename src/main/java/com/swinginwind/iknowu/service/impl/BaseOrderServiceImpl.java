@@ -151,6 +151,11 @@ public class BaseOrderServiceImpl implements BaseOrderService {
 		orderNew.setState("3");
 		return orderMapper.updateByPrimaryKeySelective(orderNew);
 	}
+
+	@Override
+	public BaseOrder selectByPrimaryKey(String oid) {
+		return orderMapper.selectByPrimaryKey(oid);
+	}
 	
 	
 
