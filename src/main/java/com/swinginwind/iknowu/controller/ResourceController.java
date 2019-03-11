@@ -54,6 +54,8 @@ public class ResourceController {
 	@RequestMapping("search")
 	@ResponseBody
 	public JqgridResponse<Resource> search(@RequestBody ResourcePager pager) {
+		//新进资源默认就是按时间倒序排列的查询方式。
+		pager.setNewTecher(null);
 		resService.select(pager);
 		JqgridResponse<Resource> res = new JqgridResponse<Resource>(pager);
 		return res;
