@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.swinginwind.core.pager.JSONResponse;
 import com.swinginwind.core.session.SessionService;
+import com.swinginwind.core.utils.ApplicationPropsUtil;
 import com.swinginwind.core.utils.Identities;
 import com.swinginwind.core.utils.SDKSendTemplateSMS;
 import com.swinginwind.iknowu.model.SysUser;
@@ -127,7 +128,8 @@ public class LoginController {
 		JSONResponse res = new JSONResponse();
 		String sessionId = Identities.uuid();
 		String code = sessionService.setVerifyCode(sessionId, phone);
-		boolean success = SDKSendTemplateSMS.sendTemplateSMS(phone, "1", new String[] { code.split("_")[1], "3" });
+		boolean success = SDKSendTemplateSMS.sendTemplateSMS(phone,
+				ApplicationPropsUtil.getPropsValue("sms.templateid"), new String[] { code.split("_")[1], "3" });
 		if(success) {
 			res.put("sessionId", sessionId);
 			res.setMsg("验证码发送成功");

@@ -23,14 +23,14 @@ public class SDKSendTemplateSMS {
 		// *ACOUNT SID和AUTH TOKEN在登陆官网后，在“应用-管理控制台”中查看开发者主账号获取*
 		// *参数顺序：第一个参数是ACOUNT SID，第二个参数是AUTH TOKEN。 *
 		// *******************************************************************************
-		restAPI.setAccount("8a216da867e881cb0167edbed5f702a6", "507e1191397e41edb8bd2134861ef732");
-
+		//restAPI.setAccount("8a216da867e881cb0167edbed5f702a6", "507e1191397e41edb8bd2134861ef732");
+		restAPI.setAccount(ApplicationPropsUtil.getPropsValue("sms.sid"), ApplicationPropsUtil.getPropsValue("sms.token"));
 		// ******************************注释*********************************************
 		// *初始化应用ID *
 		// *测试开发可使用“测试Demo”的APP ID，正式上线需要使用自己创建的应用的App ID *
 		// *应用ID的获取：登陆官网，在“应用-应用列表”，点击应用名称，看应用详情获取APP ID*
 		// *******************************************************************************
-		restAPI.setAppId("8a216da867e881cb0167edbed64d02ac");
+		restAPI.setAppId(ApplicationPropsUtil.getPropsValue("sms.appid"));
 	}
 
 	public static boolean sendTemplateSMS(String phone, String templateId, String[] params) {
